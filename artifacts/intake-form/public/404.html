@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>TymFlo Patient Intake System</title>
+  <script>
+    // SPA redirect for GitHub Pages — preserves client-side routes.
+    // When GitHub Pages returns a 404 for a deep route (e.g. /terms),
+    // this page stores the intended path and redirects to the app root,
+    // which then restores the route via history.replaceState.
+    (function () {
+      var base = '/TymFlo-Patient-Intake-System-Template';
+      var intended = window.location.pathname.slice(base.length) +
+                     window.location.search +
+                     window.location.hash;
+      sessionStorage.setItem('__spa_redirect', intended || '/');
+      window.location.replace(base + '/');
+    })();
+  </script>
+</head>
+<body></body>
+</html>
