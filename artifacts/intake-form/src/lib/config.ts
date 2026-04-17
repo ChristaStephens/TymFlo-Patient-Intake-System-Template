@@ -1,4 +1,5 @@
 export const PRACTICE_NAME = "[Practice Name]";
+export const PRACTICE_EMAIL = "office@[practicedomain].com";
 
 export const TYMFLO = {
   email: "hello@tymflo.com",
