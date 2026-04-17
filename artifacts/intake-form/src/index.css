@@ -428,6 +428,34 @@
     margin: 0;
   }
 
+  .demo-watermark {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+    font-size: 90pt;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    color: rgba(0, 0, 0, 0.055);
+    z-index: 9999;
+    pointer-events: none;
+    user-select: none;
+    white-space: nowrap;
+  }
+
+  .demo-print-notice {
+    background: #fef3c7;
+    border: 1.5pt solid #f59e0b;
+    border-radius: 4pt;
+    padding: 6pt 10pt;
+    margin-bottom: 14pt;
+    font-size: 8pt;
+    font-family: Arial, sans-serif;
+    color: #78350f;
+    text-align: center;
+    break-inside: avoid;
+  }
+
   .print-section {
     margin-bottom: 16pt;
     break-inside: avoid;
