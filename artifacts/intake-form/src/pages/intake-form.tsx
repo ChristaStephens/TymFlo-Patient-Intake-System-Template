@@ -19,7 +19,7 @@ import {
   Mail,
 } from "lucide-react";
 import Footer, { PrintFooter } from "@/components/footer";
-import { PRACTICE_NAME, PRACTICE_EMAIL } from "@/lib/config";
+import { PRACTICE_NAME, PRACTICE_EMAIL, IS_DEMO } from "@/lib/config";
 
 const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
 
@@ -549,6 +549,17 @@ export default function IntakeForm() {
   return (
     <div className="min-h-screen bg-slate-50 py-8 px-4">
       <div className="max-w-2xl mx-auto">
+
+        {/* Demo Banner */}
+        {IS_DEMO && (
+          <div className="no-print mb-5 flex items-center gap-3 rounded-xl border-2 border-amber-400 bg-amber-50 px-4 py-3" role="alert" aria-label="Demo notice">
+            <span className="shrink-0 rounded-md bg-amber-400 px-2 py-0.5 text-xs font-black uppercase tracking-widest text-amber-900">Demo</span>
+            <p className="text-sm font-medium text-amber-900 leading-snug">
+              This is a <strong>demo version</strong> for evaluation only. It is not licensed for patient use.
+              Contact <a href="mailto:hello@tymflo.com" className="underline hover:text-amber-700">hello@tymflo.com</a> to license TymFlo for your practice.
+            </p>
+          </div>
+        )}
 
         {/* Header */}
         <header className="mb-5 no-print">
@@ -1561,6 +1572,14 @@ function PrintView({ form }: { form: FormData }) {
 
   return (
     <div className="print-document">
+      {IS_DEMO && <div className="demo-watermark" aria-hidden="true">DEMO</div>}
+      {IS_DEMO && (
+        <div className="demo-print-notice">
+          <strong>DEMO — NOT LICENSED FOR PATIENT USE</strong>
+          &nbsp;&nbsp;|&nbsp;&nbsp;
+          For evaluation purposes only. Contact hello@tymflo.com to purchase a license.
+        </div>
+      )}
       <div className="print-doc-header">
         <h1 className="print-doc-title">Patient Intake Form</h1>
         <p className="print-doc-subtitle">Date printed: {new Date().toLocaleDateString()}</p>
