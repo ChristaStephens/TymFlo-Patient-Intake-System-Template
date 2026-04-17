@@ -16,9 +16,10 @@ import {
   AlertCircle,
   FileDown,
   Lock,
+  Mail,
 } from "lucide-react";
 import Footer, { PrintFooter } from "@/components/footer";
-import { PRACTICE_NAME } from "@/lib/config";
+import { PRACTICE_NAME, PRACTICE_EMAIL } from "@/lib/config";
 
 const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
 
@@ -352,6 +353,7 @@ export default function IntakeForm() {
   const [clearConfirmation, setClearConfirmation] = useState<string | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalChecked, setModalChecked] = useState(false);
+  const [showEmailDialog, setShowEmailDialog] = useState(false);
   const [tooltipVisible, setTooltipVisible] = useState(false);
 
   const modalRef = useRef<HTMLDivElement>(null);
@@ -702,7 +704,7 @@ export default function IntakeForm() {
             <div className="flex flex-col sm:flex-row gap-3">
               <button
                 type="button"
-                onClick={() => window.print()}
+                onClick={() => { window.print(); setShowEmailDialog(true); }}
                 aria-label="Download completed form as PDF"
                 className="flex-1 flex items-center justify-center gap-2 py-3.5 px-5 rounded-xl bg-teal-400 text-slate-900 text-base font-bold hover:bg-teal-300 focus:outline-none focus:ring-2 focus:ring-teal-300 focus:ring-offset-2 focus:ring-offset-slate-800 transition-colors"
               >
@@ -711,7 +713,7 @@ export default function IntakeForm() {
               </button>
               <button
                 type="button"
-                onClick={() => downloadCSV(form)}
+                onClick={() => { downloadCSV(form); setShowEmailDialog(true); }}
                 aria-label="Export form data as CSV for EHR import"
                 className="flex-1 flex items-center justify-center gap-2 py-3.5 px-5 rounded-xl bg-white/15 text-white text-base font-semibold hover:bg-white/25 focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-slate-800 border border-white/20 transition-colors"
               >
@@ -779,6 +781,55 @@ export default function IntakeForm() {
 
       {/* Footer */}
       <Footer />
+
+      {/* Email Prompt Dialog */}
+      {showEmailDialog && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 no-print" role="dialog" aria-modal="true" aria-label="Send your intake form">
+          <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setShowEmailDialog(false)} aria-hidden="true" />
+          <div className="relative z-10 bg-white rounded-2xl shadow-2xl w-full max-w-md p-6">
+            <div className="flex items-start justify-between mb-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center shrink-0">
+                  <Mail className="w-5 h-5 text-teal-600" aria-hidden="true" />
+                </div>
+                <h2 className="text-lg font-bold text-slate-800 leading-snug">Next Step: Send Your Form</h2>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowEmailDialog(false)}
+                aria-label="Close dialog"
+                className="shrink-0 p-1 rounded-md text-slate-400 hover:text-slate-700 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-teal-500 ml-2"
+              >
+                <X className="w-5 h-5" aria-hidden="true" />
+              </button>
+            </div>
+            <p className="text-sm text-slate-600 mb-4 leading-relaxed">
+              Email your completed intake form to{" "}
+              <span className="font-semibold text-slate-800">{PRACTICE_NAME}</span> at:
+            </p>
+            <a
+              href={`mailto:${PRACTICE_EMAIL}?subject=Patient Intake Form — ${PRACTICE_NAME}&body=Please find my completed patient intake form attached.`}
+              className="flex items-center justify-center gap-2 w-full py-3 px-4 rounded-xl bg-teal-600 text-white text-base font-semibold hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 transition-colors mb-4"
+            >
+              <Mail className="w-5 h-5" aria-hidden="true" />
+              Email to {PRACTICE_EMAIL}
+            </a>
+            <div className="flex items-start gap-2 p-3 bg-amber-50 border border-amber-200 rounded-lg mb-4">
+              <AlertCircle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" aria-hidden="true" />
+              <p className="text-xs text-amber-800 leading-relaxed">
+                Standard email is not encrypted. If {PRACTICE_NAME} offers a secure patient portal, consider submitting your form there instead for added privacy.
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => setShowEmailDialog(false)}
+              className="w-full py-2.5 px-4 rounded-xl text-sm font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-400 transition-colors"
+            >
+              Done
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Device Save Modal */}
       {modalOpen && (
