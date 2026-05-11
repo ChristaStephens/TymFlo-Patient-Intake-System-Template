@@ -9,12 +9,11 @@
     // this page stores the intended path and redirects to the app root,
     // which then restores the route via history.replaceState.
     (function () {
-      var base = '/TymFlo-Patient-Intake-System-Template';
-      var intended = window.location.pathname.slice(base.length) +
+      var intended = window.location.pathname +
                      window.location.search +
                      window.location.hash;
       sessionStorage.setItem('__spa_redirect', intended || '/');
-      window.location.replace(base + '/');
+      window.location.replace('/');
     })();
   </script>
 </head>
